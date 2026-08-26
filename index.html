@@ -156,7 +156,7 @@ input:focus,select:focus{border-color:var(--brand); box-shadow:0 0 0 3px var(--b
   try {
     const client = await import('/@vite/client');
     const hmr = client.createHotContext('hmr-handler/fake.js');
-    hmr.on('vite:afterUpdate', window['__ICUBE_WEBVIEW_HMR_CALLBACK_1787763238665']);
+    hmr.on('vite:afterUpdate', window['__ICUBE_WEBVIEW_HMR_CALLBACK_1787764144253']);
   } catch {}
 })();</script><style>.buttonsCard-bTXa5j {
   padding: var(--spacer-4);
@@ -513,7 +513,7 @@ input:focus,select:focus{border-color:var(--brand); box-shadow:0 0 0 3px var(--b
   try {
     const client = await import('/@vite/client');
     const hmr = client.createHotContext('hmr-handler/fake.js');
-    hmr.on('vite:afterUpdate', window['__ICUBE_WEBVIEW_HMR_CALLBACK_1787763238688']);
+    hmr.on('vite:afterUpdate', window['__ICUBE_WEBVIEW_HMR_CALLBACK_1787764144277']);
   } catch {}
 })();</script><style>.buttonsCard-bTXa5j {
   padding: var(--spacer-4);
@@ -2963,6 +2963,7 @@ function pad(n){ return n<10?'0'+n:n; }
 /* ============ 初始化 ============ */
 (function init(){
   var gb = el('goalBox');
+  gb.innerHTML = '';
   Object.keys(GOALS).forEach(function(k){
     var lbl = document.createElement('label');
     lbl.innerHTML = '<input type="checkbox" value="'+k+'"><span>'+GOALS[k].label+'</span>';
