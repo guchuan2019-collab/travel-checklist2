@@ -37,7 +37,7 @@ nav.tabs button.active{background:#fff; color:var(--brand);}
 h2.sec{font-size:16px; margin:0 0 12px; display:flex; align-items:center; gap:8px;}
 h2.sec .cnt{font-size:12px; color:var(--sub); font-weight:400;}
 label.fld{display:block; font-size:13px; color:var(--sub); margin:12px 0 5px; font-weight:600;}
-input[type=text],input[type=date],select,textarea{
+input[type=text],select,textarea{
   width:100%; padding:11px 12px; border:1px solid var(--line); border-radius:10px;
   font-size:15px; background:#fff; color:var(--ink); outline:none;
 }
@@ -63,6 +63,43 @@ input:focus,select:focus{border-color:var(--brand); box-shadow:0 0 0 3px var(--b
 .toolbar .btn{flex:1; min-width:120px;}
 .disclaimer{font-size:12px; color:var(--sub); margin-top:14px; line-height:1.6;
   background:#fffaf0; border:1px dashed #f0d9a0; border-radius:10px; padding:10px;}
+
+/* ===== City Dropdown ===== */
+.cityWrap{position:relative;}
+.cityInput{width:100%; padding:11px 12px; border:1px solid var(--line); border-radius:10px; font-size:15px; background:#fff; color:var(--ink); outline:none; cursor:pointer;}
+.cityInput:focus{border-color:var(--brand); box-shadow:0 0 0 3px var(--brand-soft);}
+.cityInput::placeholder{color:#9aa6b3;}
+.cityDrop{position:absolute; left:0; right:0; top:calc(100% + 4px); max-height:320px; overflow-y:auto; background:#fff; border:1px solid var(--line); border-radius:12px; box-shadow:0 12px 32px rgba(0,0,0,.15); z-index:25; display:none;}
+.cityDrop.show{display:block;}
+.citySearch{padding:10px 12px; border-bottom:1px solid var(--line); position:sticky; top:0; background:#fff; z-index:2;}
+.citySearch input{width:100%; padding:8px 10px; border:1px solid var(--line); border-radius:8px; font-size:14px; outline:none;}
+.cityList{padding:4px 0;}
+.cityItem{padding:11px 14px; font-size:15px; cursor:pointer;}
+.cityItem:hover{background:var(--brand-soft); color:var(--brand);}
+.cityItem.empty{padding:16px; color:var(--sub); text-align:center;}
+
+/* ===== Calendar ===== */
+.dateTrigger{width:100%; padding:11px 12px; border:1px solid var(--line); border-radius:10px; font-size:15px; background:#fff; color:var(--sub); cursor:pointer; text-align:left;}
+.dateTrigger.hasDate{color:var(--ink);}
+.calOverlay{position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:40; display:none; align-items:flex-end; justify-content:center;}
+.calOverlay.show{display:flex;}
+.calPanel{background:#fff; width:100%; max-width:420px; border-radius:20px 20px 0 0; padding:16px 16px 24px; max-height:85vh; overflow-y:auto;}
+.calHead{display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;}
+.calHead h4{margin:0; font-size:16px;}
+.calHead button{border:0; background:transparent; font-size:22px; color:var(--brand); cursor:pointer; width:36px; height:36px; display:flex; align-items:center; justify-content:center; border-radius:8px;}
+.calHead button:active{background:var(--brand-soft);}
+.calGrid{display:grid; grid-template-columns:repeat(7,1fr); gap:4px; text-align:center;}
+.calGrid .dow{font-size:12px; color:var(--sub); padding:8px 0; font-weight:600;}
+.calGrid .day{padding:10px 0; border-radius:10px; font-size:14px; cursor:pointer;}
+.calGrid .day:hover{background:var(--brand-soft);}
+.calGrid .day.other{color:#c0c8d2;}
+.calGrid .day.start{background:var(--brand); color:#fff;}
+.calGrid .day.end{background:var(--brand); color:#fff;}
+.calGrid .day.range{background:#e6f6f6;}
+.calGrid .day.today{border:1px solid var(--brand);}
+.calFoot{display:flex; gap:8px; margin-top:16px;}
+.calFoot .btn{flex:1;}
+.calHint{text-align:center; font-size:13px; color:var(--sub); margin-bottom:10px;}
 
 /* checklist */
 .summary{display:grid; grid-template-columns:1fr 1fr; gap:8px 14px; font-size:13px; color:var(--sub);}
@@ -97,12 +134,6 @@ input:focus,select:focus{border-color:var(--brand); box-shadow:0 0 0 3px var(--b
 .tripRow .meta{font-size:12px; color:var(--sub); margin-top:4px;}
 .tripRow .acts{display:flex; gap:6px; flex-wrap:wrap; margin-top:10px;}
 
-.dateRange{display:flex; align-items:center; border:1px solid var(--line); border-radius:12px; overflow:hidden; background:#fff;}
-.dateRange input{flex:1; border:0; border-radius:0; padding:11px 10px; text-align:center; font-size:14px; background:transparent;}
-.dateRange .sep{color:var(--brand); font-weight:700; font-size:18px; user-select:none; padding:0 4px;}
-.dateRange input:first-child{border-right:1px solid var(--line);}
-.dateRange input::-webkit-calendar-picker-indicator{cursor:pointer;}
-
 /* Toast */
 #toast{position:fixed; left:50%; top:52px; transform:translateX(-50%); z-index:30;
   background:var(--ink); color:#fff; padding:10px 18px; border-radius:10px; font-size:14px;
@@ -110,7 +141,7 @@ input:focus,select:focus{border-color:var(--brand); box-shadow:0 0 0 3px var(--b
 #toast.show{opacity:1; top:72px;}
 
 @media print{
-  header.top,nav.tabs,.toolbar,.addItem,.del,.qty button,.btn,#toast{display:none !important;}
+  header.top,nav.tabs,.toolbar,.addItem,.del,.qty button,.btn,#toast,.calOverlay{display:none !important;}
   body{background:#fff;}
   .wrap{max-width:100%;}
   .card{box-shadow:none; break-inside:avoid;}
@@ -122,7 +153,7 @@ input:focus,select:focus{border-color:var(--brand); box-shadow:0 0 0 3px var(--b
   try {
     const client = await import('/@vite/client');
     const hmr = client.createHotContext('hmr-handler/fake.js');
-    hmr.on('vite:afterUpdate', window['__ICUBE_WEBVIEW_HMR_CALLBACK_1787753008166']);
+    hmr.on('vite:afterUpdate', window['__ICUBE_WEBVIEW_HMR_CALLBACK_1787755115777']);
   } catch {}
 })();</script><style>.buttonsCard-bTXa5j {
   padding: var(--spacer-4);
@@ -479,7 +510,7 @@ input:focus,select:focus{border-color:var(--brand); box-shadow:0 0 0 3px var(--b
   try {
     const client = await import('/@vite/client');
     const hmr = client.createHotContext('hmr-handler/fake.js');
-    hmr.on('vite:afterUpdate', window['__ICUBE_WEBVIEW_HMR_CALLBACK_1787753008198']);
+    hmr.on('vite:afterUpdate', window['__ICUBE_WEBVIEW_HMR_CALLBACK_1787755115793']);
   } catch {}
 })();</script><style>.buttonsCard-bTXa5j {
   padding: var(--spacer-4);
@@ -2579,15 +2610,31 @@ input:focus,select:focus{border-color:var(--brand); box-shadow:0 0 0 3px var(--b
     <h2 class="sec">填写行程信息</h2>
     <label class="fld">清单名称</label>
     <input type="text" id="fName" placeholder="如：十一首尔行（留空将自动命名）">
+
     <label class="fld">出发地</label>
-    <input type="text" id="fDep" list="cityList" placeholder="输入或选择城市">
-    <label class="fld">目的地（可添加多个城市）</label>
-    <input type="text" id="fDest" list="cityList" placeholder="输入或选择城市，按回车/离开自动添加" onkeydown="if(event.key==='Enter'){addDest();event.preventDefault();}" onchange="addDest()">
-    <div class="chips" id="destChips"></div>
-    <label class="fld">出行日期</label>
-    <div class="dateRange">
-      <input type="date" id="fStart"><span class="sep">→</span><input type="date" id="fEnd">
+    <div class="cityWrap">
+      <input type="text" id="fDep" class="cityInput" readonly="" placeholder="点击选择城市" onclick="openCityDrop('dep')">
+      <div id="depDrop" class="cityDrop">
+        <div class="citySearch"><input type="text" placeholder="搜索城市…" oninput="filterCity('dep',this.value)" onclick="event.stopPropagation()"></div>
+        <div class="cityList" id="depList"></div>
+      </div>
     </div>
+
+    <label class="fld">目的地（可添加多个城市）</label>
+    <div class="cityWrap">
+      <input type="text" id="fDest" class="cityInput" readonly="" placeholder="点击选择城市" onclick="openCityDrop('dest')">
+      <div id="destDrop" class="cityDrop">
+        <div class="citySearch"><input type="text" placeholder="搜索城市…" oninput="filterCity('dest',this.value)" onclick="event.stopPropagation()"></div>
+        <div class="cityList" id="destList"></div>
+      </div>
+    </div>
+    <div class="chips" id="destChips"></div>
+
+    <label class="fld">出行日期</label>
+    <div class="dateTrigger" id="dateTrigger" onclick="openCal()">请选择出行日期</div>
+    <input type="hidden" id="fStart">
+    <input type="hidden" id="fEnd">
+
     <label class="fld">旅行目标（可多选）</label>
     <div class="goalGrid" id="goalBox"><label><input type="checkbox" value="观光休闲"><span>观光休闲</span></label><label><input type="checkbox" value="购物"><span>购物</span></label><label><input type="checkbox" value="演唱会演出"><span>演唱会演出</span></label><label><input type="checkbox" value="海滩度假"><span>海滩度假</span></label><label><input type="checkbox" value="滑雪"><span>滑雪</span></label><label><input type="checkbox" value="徒步户外"><span>徒步户外</span></label><label><input type="checkbox" value="商务出差"><span>商务出差</span></label><label><input type="checkbox" value="亲子家庭"><span>亲子家庭</span></label><label><input type="checkbox" value="探亲"><span>探亲</span></label></div>
     <label class="fld" style="display:flex;align-items:center;gap:8px;">
@@ -2630,7 +2677,23 @@ input:focus,select:focus{border-color:var(--brand); box-shadow:0 0 0 3px var(--b
 
 </div>
 
-<datalist id="cityList"><option value="北京"></option><option value="上海"></option><option value="广州"></option><option value="深圳"></option><option value="成都"></option><option value="昆明"></option><option value="哈尔滨"></option><option value="西安"></option><option value="杭州"></option><option value="厦门"></option><option value="三亚"></option><option value="丽江"></option><option value="拉萨"></option><option value="武汉"></option><option value="香港"></option><option value="澳门"></option><option value="台北"></option><option value="首尔"></option><option value="釜山"></option><option value="东京"></option><option value="大阪"></option><option value="京都"></option><option value="那霸"></option><option value="曼谷"></option><option value="清迈"></option><option value="普吉岛"></option><option value="新加坡"></option><option value="吉隆坡"></option><option value="马尼拉"></option><option value="巴厘岛"></option><option value="河内"></option><option value="胡志明市"></option><option value="加德满都"></option><option value="马累"></option><option value="悉尼"></option><option value="墨尔本"></option><option value="奥克兰"></option><option value="伦敦"></option><option value="巴黎"></option><option value="罗马"></option><option value="米兰"></option><option value="马德里"></option><option value="巴塞罗那"></option><option value="柏林"></option><option value="莫斯科"></option><option value="雅典"></option><option value="雷克雅未克"></option><option value="纽约"></option><option value="洛杉矶"></option><option value="旧金山"></option><option value="火奴鲁鲁"></option><option value="拉斯维加斯"></option><option value="多伦多"></option><option value="温哥华"></option><option value="墨西哥城"></option><option value="迪拜"></option><option value="伊斯坦布尔"></option><option value="开罗"></option><option value="内罗毕"></option><option value="开普敦"></option></datalist>
+<!-- Calendar Overlay -->
+<div class="calOverlay" id="calOverlay" onclick="closeCalOnOverlay(event)">
+  <div class="calPanel" onclick="event.stopPropagation()">
+    <div class="calHead">
+      <button onclick="calPrev()">‹</button>
+      <h4 id="calTitle"></h4>
+      <button onclick="calNext()">›</button>
+    </div>
+    <div class="calHint" id="calHint">请选择出发日期</div>
+    <div class="calGrid" id="calGrid"></div>
+    <div class="calFoot">
+      <button class="btn ghost" onclick="closeCal()">取消</button>
+      <button class="btn" onclick="confirmCal()">确定</button>
+    </div>
+  </div>
+</div>
+
 <div id="toast"></div>
 
 <script>
@@ -2704,7 +2767,7 @@ CITIES.forEach(function(s){
   CLIMATE[p[0]] = { country:p[1], cold:parseMonths(p[2]), hot:parseMonths(p[3]), rain:parseMonths(p[4]), snow:parseMonths(p[5]) };
 });
 
-/* ============ 国家信息（基于中国护照）visa/plug/voltage/currency/extra ============ */
+/* ============ 国家信息（基于中国护照） ============ */
 var COUNTRY = {
  "中国":{visa:"国内",plug:"两孔扁/三孔扁",voltage:"220V",currency:"人民币",insurance:false,extra:[]},
  "韩国":{visa:"需签证(济州岛免签)",plug:"两孔圆(C型)",voltage:"220V",currency:"韩元",insurance:true,extra:["签证/K-ETA确认书打印件"]},
@@ -2763,15 +2826,133 @@ var BASE = {
 var CATS = ["出行相关","证件相关","待办事项","衣服服饰","日用品","电子设备","药品","行程专属"];
 
 /* ============ 运行状态 ============ */
-var state = { dests:[], goals:[], trip:null };  // trip={name,dep,dests,start,end,goals,laundry,days,items:{}}
+var state = { dests:[], goals:[], trip:null };
 var _idc = 0;
 function uid(){ return "i"+(++_idc); }
 function el(id){ return document.getElementById(id); }
 
-/* 初始化 datalist 与目标 */
+/* ============ 城市选择器 ============ */
+var _cityOpen = null;
+function openCityDrop(which){
+  closeAllCityDrops();
+  var drop = el(which+'Drop');
+  var list = el(which+'List');
+  var cities = Object.keys(CLIMATE).sort();
+  renderCityList(which, cities);
+  drop.classList.add('show');
+  _cityOpen = which;
+  setTimeout(function(){ var s=drop.querySelector('.citySearch input'); if(s){ s.value=''; s.focus(); } },10);
+}
+function renderCityList(which, cities){
+  var list = el(which+'List'); list.innerHTML='';
+  if(cities.length===0){ list.innerHTML='<div class="cityItem empty">未找到城市</div>'; return; }
+  cities.forEach(function(c){
+    var item = document.createElement('div'); item.className='cityItem'; item.textContent=c;
+    item.onclick = function(){ pickCity(which, c); };
+    list.appendChild(item);
+  });
+}
+function filterCity(which, q){
+  var all = Object.keys(CLIMATE);
+  var filtered = q.trim() ? all.filter(function(c){ return c.indexOf(q.trim())>=0; }) : all;
+  renderCityList(which, filtered.sort());
+}
+function pickCity(which, city){
+  if(which==='dep'){
+    el('fDep').value = city;
+    el('fDep').classList.add('hasDate');
+  } else {
+    if(state.dests.indexOf(city)<0){ state.dests.push(city); renderChips(); }
+  }
+  closeAllCityDrops();
+}
+function closeAllCityDrops(){
+  ['dep','dest'].forEach(function(k){ el(k+'Drop').classList.remove('show'); });
+  _cityOpen = null;
+}
+document.addEventListener('click', function(e){
+  if(!_cityOpen) return;
+  var drop = el(_cityOpen+'Drop');
+  var input = el(_cityOpen==='dep'?'fDep':'fDest');
+  if(drop && !drop.contains(e.target) && e.target!==input){ closeAllCityDrops(); }
+});
+
+/* ============ 日历选择器 ============ */
+var calState = { year:0, month:0, start:null, end:null };
+function openCal(){
+  var now = new Date();
+  calState.year = now.getFullYear(); calState.month = now.getMonth();
+  calState.start = el('fStart').value || null;
+  calState.end = el('fEnd').value || null;
+  el('calOverlay').classList.add('show');
+  document.body.style.overflow='hidden';
+  renderCal();
+  updateCalHint();
+}
+function closeCal(){
+  el('calOverlay').classList.remove('show');
+  document.body.style.overflow='';
+}
+function closeCalOnOverlay(e){ if(e.target===el('calOverlay')) closeCal(); }
+function calPrev(){ calState.month--; if(calState.month<0){ calState.month=11; calState.year--; } renderCal(); }
+function calNext(){ calState.month++; if(calState.month>11){ calState.month=0; calState.year++; } renderCal(); }
+function updateCalHint(){
+  var h = el('calHint');
+  if(!calState.start && !calState.end) h.textContent = '请选择出发日期';
+  else if(calState.start && !calState.end) h.textContent = '请选择返回日期';
+  else h.textContent = '已选 '+calState.start+' 至 '+calState.end;
+}
+function renderCal(){
+  var y=calState.year, m=calState.month;
+  el('calTitle').textContent = y+'年'+(m+1)+'月';
+  var grid = el('calGrid'); grid.innerHTML='';
+  var dow=['日','一','二','三','四','五','六'];
+  dow.forEach(function(d){ var s=document.createElement('div'); s.className='dow'; s.textContent=d; grid.appendChild(s); });
+  var first = new Date(y,m,1).getDay();
+  var days = new Date(y,m+1,0).getDate();
+  var prevDays = new Date(y,m,0).getDate();
+  for(var i=first-1;i>=0;i--){
+    var d=document.createElement('div'); d.className='day other'; d.textContent=prevDays-i; grid.appendChild(d);
+  }
+  var todayStr = fmtDate(new Date());
+  for(var d=1;d<=days;d++){
+    var cell=document.createElement('div'); cell.className='day'; cell.textContent=d;
+    var ds = fmtDate(new Date(y,m,d));
+    if(ds===calState.start) cell.classList.add('start');
+    if(ds===calState.end) cell.classList.add('end');
+    if(calState.start && calState.end && ds>calState.start && ds<calState.end) cell.classList.add('range');
+    if(ds===todayStr) cell.classList.add('today');
+    cell.onclick = (function(dateStr){ return function(){ onCalDayClick(dateStr); }; })(ds);
+    grid.appendChild(cell);
+  }
+  var rem = (7 - ((first + days) % 7)) % 7;
+  for(var i=1;i<=rem;i++){
+    var d=document.createElement('div'); d.className='day other'; d.textContent=i; grid.appendChild(d);
+  }
+}
+function onCalDayClick(ds){
+  if(!calState.start || (calState.start && calState.end)){
+    calState.start = ds; calState.end = null;
+  } else if(calState.start && !calState.end){
+    if(ds < calState.start){ calState.end = calState.start; calState.start = ds; }
+    else { calState.end = ds; }
+  }
+  renderCal(); updateCalHint();
+}
+function confirmCal(){
+  if(!calState.start || !calState.end){ showToast('请选择完整的出行日期区间'); return; }
+  el('fStart').value = calState.start;
+  el('fEnd').value = calState.end;
+  var trigger = el('dateTrigger');
+  trigger.textContent = calState.start + ' → ' + calState.end;
+  trigger.classList.add('hasDate');
+  closeCal();
+}
+function fmtDate(d){ var y=d.getFullYear(),m=d.getMonth()+1,day=d.getDate(); return y+'-'+pad(m)+'-'+pad(day); }
+function pad(n){ return n<10?'0'+n:n; }
+
+/* ============ 初始化 ============ */
 (function init(){
-  var dl = el('cityList');
-  Object.keys(CLIMATE).forEach(function(c){ var o=document.createElement('option'); o.value=c; dl.appendChild(o); });
   var gb = el('goalBox');
   Object.keys(GOALS).forEach(function(k){
     var lbl = document.createElement('label');
@@ -2780,19 +2961,6 @@ function el(id){ return document.getElementById(id); }
       state.goals = Array.from(gb.querySelectorAll('input:checked')).map(function(c){return c.value;});
     });
     gb.appendChild(lbl);
-  });
-  // 日期区间联动校验
-  el('fStart').addEventListener('change', function(){
-    if(this.value){ el('fEnd').min = this.value; }
-    if(el('fEnd').value && el('fEnd').value < this.value){
-      el('fEnd').value = ''; showToast('返回日期不能早于出发日期，已清空');
-    }
-  });
-  el('fEnd').addEventListener('change', function(){
-    if(this.value){ el('fStart').max = this.value; }
-    if(el('fStart').value && el('fStart').value > this.value){
-      el('fStart').value = ''; showToast('出发日期不能晚于返回日期，已清空');
-    }
   });
   loadFromStorageKeep();
 })();
@@ -2846,7 +3014,6 @@ function weatherItems(city, months){
 function uniq(a){ var seen={},r=[]; a.forEach(function(x){ if(!seen[x]){seen[x]=1; r.push(x);} }); return r; }
 
 function generate(){
-  if(el('fDest').value.trim()){ addDest(); } // 自动把框里还没添加的目的地加进去
   var dep = el('fDep').value.trim();
   var dests = state.dests.slice();
   var start = el('fStart').value, end = el('fEnd').value;
@@ -2854,7 +3021,7 @@ function generate(){
   var laundry = el('fLaundry').checked;
   var pet = el('fPet').checked;
   var name = el('fName').value.trim() || (dep+' → '+dests.join('/'));
-  if(!dep){ showToast('请填写出发地'); return; }
+  if(!dep){ showToast('请选择出发地'); return; }
   if(dests.length===0){ showToast('请添加至少一个目的地'); return; }
   if(!start||!end){ showToast('请选择出行日期'); return; }
 
@@ -2868,7 +3035,6 @@ function generate(){
   var items = {};
   CATS.forEach(function(c){ items[c]=[]; });
 
-  // 基础清单（按类别智能计算数量）
   Object.keys(BASE).forEach(function(cat){
     BASE[cat].forEach(function(t){
       var qty = 1;
@@ -2881,18 +3047,15 @@ function generate(){
     });
   });
 
-  // 宠物相关 → 待办事项
   if(pet){
     items['待办事项'].push({id:uid(), text:'准备充足猫粮 / 设置自动喂食器', qty:1, checked:false});
     items['待办事项'].push({id:uid(), text:'准备充足猫水 / 设置自动饮水机', qty:1, checked:false});
     items['待办事项'].push({id:uid(), text:'安装/检查宠物监控器', qty:1, checked:false});
   }
 
-  // 行程专属：动态生成
   var custom = [];
   custom.push('行程共 '+days+' 天，已按 '+clothDays+' 套准备内衣袜子'+(laundry?'（已开中途洗衣，减半）':''));
 
-  // 跨境判定 + 签证/插头/货币
   dests.forEach(function(d){
     var dc = CLIMATE[d] ? CLIMATE[d].country : null;
     if(!dc){ custom.push('【'+d+'】暂无数据，请自行确认是否需出境手续及当地天气'); return; }
@@ -2915,7 +3078,6 @@ function generate(){
   });
   custom = uniq(custom);
 
-  // 天气：出发地（出发/返回日所在月）
   if(CLIMATE[dep]){
     if(CLIMATE[dep].rain.indexOf(startMonth)>=0) custom.push('出发当天 '+dep+' 可能下雨，记得带伞/雨衣去机场');
     if(CLIMATE[dep].rain.indexOf(endMonth)>=0) custom.push('返程当天 '+dep+' 可能下雨，记得带伞');
@@ -2923,7 +3085,6 @@ function generate(){
   } else {
     custom.push('【'+dep+'】出发地暂无气候数据，请自行确认出发天气');
   }
-  // 目的地天气
   dests.forEach(function(d){
     var di = weatherItems(d,months);
     if(di.length===0 && !CLIMATE[d]) custom.push('【'+d+'】暂无气候数据，请自行确认当地天气');
@@ -2931,7 +3092,6 @@ function generate(){
   });
   custom = uniq(custom);
 
-  // 旅行目标专属
   goals.forEach(function(g){ if(GOALS[g]) GOALS[g].items.forEach(function(it){ custom.push(it); }); });
   custom = uniq(custom);
 
@@ -2940,7 +3100,7 @@ function generate(){
   state.trip = { name:name, dep:dep, dests:dests, start:start, end:end, goals:goals, laundry:laundry, pet:pet, days:days, clothDays:clothDays, items:items };
   renderList();
   go('list');
-  autoSave(); // 生成后自动保存
+  autoSave();
 }
 
 /* ============ 清单渲染与交互 ============ */
@@ -2962,7 +3122,6 @@ function renderList(){
     sec.appendChild(head);
     var list = document.createElement('div'); list.id='list-'+cat;
     sec.appendChild(list);
-    // 添加物品
     var add = document.createElement('div'); add.className='addItem';
     add.innerHTML = '<input type="text" placeholder="添加自定义物品…" onkeydown="if(event.key===\'Enter\')addItem(\''+cat+'\')">'+
       '<button class="btn sm" onclick="addItem(\''+cat+'\')">+</button>';
@@ -3043,16 +3202,11 @@ function renderHistory(){
   all.forEach(function(t){
     var row=document.createElement('div'); row.className='tripRow';
     row.setAttribute('data-id', t.id);
-
-    // 名称区（支持内联编辑）
     var nmWrap=document.createElement('div'); nmWrap.className='nmWrap';
     var nm=document.createElement('div'); nm.className='nm'; nm.textContent=t.name||'未命名';
     nmWrap.appendChild(nm);
     row.appendChild(nmWrap);
-
     row.innerHTML+='<div class="meta">'+esc(t.dep)+' → '+esc((t.dests||[]).join('、'))+'｜'+(t.start||'?')+' ~ '+(t.end||'?')+'｜'+(t.days||'?')+'天</div>';
-
-    // 操作按钮区
     var acts=document.createElement('div'); acts.className='acts';
     var b1=document.createElement('button'); b1.className='btn sm'; b1.textContent='查看'; b1.onclick=function(){ openTrip(t.id); };
     var b2=document.createElement('button'); b2.className='btn sm ghost'; b2.textContent='复制为模板'; b2.onclick=function(){ copyTemplate(t.id); };
@@ -3099,14 +3253,15 @@ function openTrip(id){
 }
 function copyTemplate(id){
   var all=loadAll(); var t=all.filter(function(x){return x.id===id;})[0]; if(!t) return;
-  // 还原到表单
   el('fName').value = (t.name||'')+' 副本';
-  el('fDep').value = t.dep||'';
+  el('fDep').value = t.dep||''; if(t.dep){ el('fDep').classList.add('hasDate'); }
   state.dests = (t.dests||[]).slice(); renderChips();
-  el('fStart').value = t.start||''; el('fEnd').value = t.end||'';
+  if(t.start && t.end){
+    el('fStart').value = t.start; el('fEnd').value = t.end;
+    var tr = el('dateTrigger'); tr.textContent = t.start + ' → ' + t.end; tr.classList.add('hasDate');
+  }
   el('fLaundry').checked = !!t.laundry;
   el('fPet').checked = !!t.pet;
-  // 目标勾选
   var cbs = el('goalBox').querySelectorAll('input'); cbs.forEach(function(c){ c.checked = (t.goals||[]).indexOf(c.value)>=0; });
   state.goals = Array.from(el('goalBox').querySelectorAll('input:checked')).map(function(c){return c.value;});
   go('form'); showToast('已载入模板到表单，可修改后重新生成');
